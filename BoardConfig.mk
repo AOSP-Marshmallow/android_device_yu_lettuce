@@ -53,7 +53,7 @@ endif
 # Kernel
 BOARD_CUSTOM_BOOTIMG_MK := $(LOCAL_PATH)/mkbootimg.mk
 BOARD_KERNEL_BASE := 0x80000000
-BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom msm_rtb.filter=0x237 ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 earlyprintk
+BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom msm_rtb.filter=0x237 ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 earlyprintk androidboot.selinux=permissive
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_SEPARATED_DT := true
 BOARD_KERNEL_TAGS_OFFSET := 0x01E00000
@@ -69,6 +69,7 @@ else
 TARGET_KERNEL_CONFIG := cyanogenmod_lettuce_defconfig
 endif
 TARGET_KERNEL_SOURCE := kernel/yu/msm8916
+
 
 # ANT+
 BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
@@ -99,15 +100,6 @@ MALLOC_IMPL := dlmalloc
 # Crypto
 TARGET_HW_DISK_ENCRYPTION := true
 
-# Dex
-ifeq ($(HOST_OS),linux)
-  ifeq ($(TARGET_BUILD_VARIANT),user)
-    ifeq ($(WITH_DEXPREOPT),)
-      WITH_DEXPREOPT := true
-    endif
-  endif
-endif
-
 # Display
 BOARD_EGL_CFG := $(LOCAL_PATH)/configs/egl.cfg
 MAX_EGL_CACHE_KEY_SIZE := 12*1024
@@ -118,10 +110,11 @@ TARGET_CONTINUOUS_SPLASH_ENABLED := true
 TARGET_USES_C2D_COMPOSITION := true
 TARGET_USES_ION := true
 USE_OPENGL_RENDERER := true
+TARGET_USES_QCOM_BSP := true
+TARGET_NO_RPC := true
 
-# FM
-AUDIO_FEATURE_ENABLED_FM := true
-TARGET_QCOM_NO_FM_FIRMWARE := true
+# Enable CSVT
+TARGET_USES_CSVT := true
 
 # Fonts
 EXTENDED_FONT_FOOTPRINT := true
@@ -147,6 +140,8 @@ BOARD_RECOVERYIMAGE_PARTITION_SIZE := 33554432
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2147483648
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 13042155008
 
+MAX_VIRTUAL_DISPLAY_DIMENSION := 2048
+
 # Power
 TARGET_POWERHAL_VARIANT := qcom
 
@@ -164,10 +159,10 @@ TARGET_RELEASETOOLS_EXTENSIONS := $(LOCAL_PATH)
 TARGET_RIL_VARIANT := caf
 
 # SELinux
-include device/qcom/sepolicy/sepolicy.mk
+# include device/qcom/sepolicy/sepolicy.mk
 
-BOARD_SEPOLICY_DIRS += \
-    device/yu/lettuce/sepolicy
+# BOARD_SEPOLICY_DIRS += \
+#    device/yu/lettuce/sepolicy
 
 BOARD_SEPOLICY_UNION += \
     bluetooth_loader.te \

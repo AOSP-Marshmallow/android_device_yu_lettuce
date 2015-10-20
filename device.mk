@@ -175,10 +175,12 @@ PRODUCT_PACKAGES += \
     libOmxVdec \
     libOmxVenc \
     libstagefrighthw \
-    qcmediaplayer
+    qcmediaplayer \
+    tcmiface
 
 PRODUCT_BOOT_JARS += \
-    qcmediaplayer
+    qcmediaplayer \
+    tcmiface
 
 # Power HAL
 PRODUCT_PACKAGES += \
